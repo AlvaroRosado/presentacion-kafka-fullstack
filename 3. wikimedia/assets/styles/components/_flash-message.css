@@ -1,0 +1,23 @@
+/* Flash Messages Component */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
+.flash-toast {
+    animation: slideInRight 0.3s ease-out, fadeOut 0.5s ease-in 2.5s forwards;
+    background-color: green;
+}

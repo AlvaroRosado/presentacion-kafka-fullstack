@@ -1,0 +1,50 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+    uploads_dir_name: 'uploads'
+    uploads_base_url: '%env(SITE_URL)%/%uploads_dir_name%'
+    site_url: '%env(SITE_URL)%'
+    openai_api_key: '%env(OPENAI_API_KEY)%'
+    datalab_api_key: '%env(DATALAB_API_KEY)%'
+    ollama_url: '%env(OLLAMA_HOST_URL)%'
+    manticore_host: '%env(MANTICORE_HOST)%'
+    manticore_port: '%env(MANTICORE_PORT)%'
+    document_rake_tagger_patterns_dir: '%kernel.project_dir%/src/Modules/Agent/Domain/Tagger/StopWordsPatterns'
+    stripe_payment_link_monthly: '%env(STRIPE_PAYMENT_LINK_MONTHLY)%'
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+    _instanceof:
+        App\Modules\Shared\Application\CommandHandler:
+            tags: [ { name: messenger.message_handler, bus: command.bus } ]
+        App\Modules\Shared\Application\EventHandler:
+            tags:
+                - { name: messenger.message_handler, bus: event.bus }
+                - { name: messenger.message_handler, bus: immediate_event.bus }
+        App\Modules\Shared\Application\QueryHandler:
+            tags: [ { name: messenger.message_handler, bus: query.bus } ]
+    
+    App\Modules\Shared\Infrastructure\Symfony\Listener\ExceptionListener:
+        tags: [ { name: kernel.event_listener, event: kernel.exception, priority: -10 } ]
+    
+    hwi_oauth.user.provider.entity:
+        class: HWI\Bundle\OAuthBundle\Security\Core\User\EntityUserProvider
+        arguments:
+            $class: App\Entity\User
+            $properties:
+                'facebook': 'facebook'
+                'google': 'google'

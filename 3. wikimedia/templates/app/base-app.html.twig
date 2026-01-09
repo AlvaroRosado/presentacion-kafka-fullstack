@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="size-full">
+        <div class="flex">
+            <!--  Start: Layout - Sidebar -->
+            {{ include('app/_partials/_sidebar.html.twig') }}
+            <!--  End: Layout - Sidebar -->
+
+            <div class="flex min-h-screen min-w-0 grow flex-col overflow-visible">
+                <!--  Start: Layout - Topbar -->
+                {{ include('app/_partials/_topbar.html.twig') }}
+                <!--  End: Layout - Topbar -->
+
+                <!--  Start: Layout - Content -->
+                    <div id="layout-content" >
+                        <turbo-frame id="main-content" data-turbo-action="advance">
+                            {% block content %}
+                                <div class="welcome-message">
+                                    <h1>Welcome to Dashboard</h1>
+                                    <p>Select an option from the sidebar</p>
+                                </div>
+                            {% endblock %}
+                        </turbo-frame>
+                    </div>
+                <!--  End: Layout - Content -->
+            </div>
+        </div>
+
+        <!--  Start: Layout - Rightbar -->
+        {{ include('app/_partials/_rightbar.html.twig') }}
+        <!--  End: Layout - Rightbar -->
+
+    </div>
+{% endblock %}

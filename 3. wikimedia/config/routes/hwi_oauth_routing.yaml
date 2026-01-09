@@ -1,0 +1,21 @@
+hwi_oauth_redirect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.php"
+    prefix: /connect
+
+hwi_oauth_connect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/connect.php"
+    prefix: /connect
+
+widget_google_login_start:
+    path: /widget/connect/{service}
+    controller: HWI\Bundle\OAuthBundle\Controller\RedirectToServiceController::redirectToServiceAction
+
+google_login_widget_check:
+    path: /widget/login/check-google
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
+    defaults: { path: '/widget/login', permanent: false }
+
+google_login_main_check:
+    path: /login/check-google
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
+    defaults: { path: '/app', permanent: false }

@@ -1,0 +1,17 @@
+<turbo-frame id="pro_registration_frame">
+    <div class="text-center py-10 animate-fade-in-up">
+        <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
+            {{ ux_icon('lucide:check', {'class': 'size-5'}) }}
+        </div>
+
+        <h3 class="text-3xl font-bold mb-3">¡Solicitud Recibida!</h3>
+
+        <p class="text-lg text-base-content/70 max-w-sm mx-auto mb-8">
+            Hemos guardado tu plaza en la lista de espera. Te avisaremos al email indicado en cuanto activemos tu cuenta.
+        </p>
+
+        <a href="{{ path('home') }}" target="_top" class="btn btn-outline border-base-content/20 hover:bg-base-content/5">
+            Volver al inicio
+        </a>
+    </div>
+</turbo-frame>

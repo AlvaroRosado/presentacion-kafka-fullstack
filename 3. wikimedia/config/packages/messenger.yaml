@@ -1,0 +1,44 @@
+framework:
+    messenger:
+        default_bus: none.bus
+        buses:
+            none.bus:
+                default_middleware:
+                    allow_no_handlers: true
+            command.bus:
+                default_middleware:
+                    enabled: true
+                    allow_no_handlers: true
+                    allow_no_senders: true
+                middleware:
+                    - doctrine_ping_connection
+                    - doctrine_open_transaction_logger
+                    - dispatch_after_current_bus
+            
+            query.bus:
+            event.bus:
+                default_middleware:
+                    enabled: true
+                    allow_no_handlers: true
+                    allow_no_senders: true
+                middleware:
+                    - doctrine_ping_connection
+                    - doctrine_open_transaction_logger
+                    - dispatch_after_current_bus
+            immediate_event.bus:
+                default_middleware: 
+                    enabled: true
+                    allow_no_handlers: true
+                    allow_no_senders: true
+        failure_transport: failed
+        transports:
+            failed: 'doctrine://default?queue_name=failed'
+            sync: 'sync://'
+        routing:
+# when@Test:
+#    framework:
+#        messenger:
+#            transports:
+#                # replace with your transport name here (e.g., my_transport: 'in-memory://')
+#                # For more Messenger testing tools, see https://github.com/zenstruck/messenger-test
+#                async: 'in-memory://'

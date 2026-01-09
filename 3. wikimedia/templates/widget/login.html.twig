@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+
+    <div class="min-h-screen w-full flex items-center justify-center bg-base-200">
+        <div class="w-full max-w-sm p-6 bg-base-100 rounded-xl shadow-lg text-center">
+
+            <div class="flex justify-center mb-6">
+                <img alt="logo-light" class="h-8 dark:hidden" src="{{ asset('images/logo/logo-light.png') }}">
+                <img alt="logo-dark" class="hidden h-8 dark:inline" src="{{ asset('images/logo/logo-dark.png') }}">
+            </div>
+
+            <h2 class="text-lg font-semibold">Inicia sesión</h2>
+            <p class="text-sm text-base-content/70 mt-2">
+                Accede en un clic con tu cuenta de Google
+            </p>
+
+            {% if error %}
+                <div class="alert alert-error mt-4 text-sm">
+                    {{ error.messageKey }}
+                </div>
+            {% endif %}
+
+            <div class="mt-6">
+                <a href="#"
+                   id="login-button"
+                   class="btn btn-primary w-full h-12 gap-3 text-base"
+                   data-turbo="false">
+                    <img class="size-6" alt="" src="{{ asset('images/brand-logo/google-mini.svg') }}">
+                    Continuar con Google
+                </a>
+
+            </div>
+
+            <p class="text-xs text-base-content/60 mt-6">
+                Al continuar aceptas iniciar sesión con Google
+            </p>
+
+        </div>
+    </div>
+    <script>
+        document.getElementById('login-button').addEventListener('click', function (e) {
+            e.preventDefault();
+
+            window.parent.postMessage({
+                type: 'OPEN_LOGIN',
+                loginUrl: '{{ absolute_url(path('widget_google_login_start', { service: 'google' })) }}'
+            }, '*');
+        });
+    </script>
+
+{% endblock %}

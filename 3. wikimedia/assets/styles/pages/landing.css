@@ -1,0 +1,13 @@
+.landing-gradient-underline {
+    @apply relative;
+    &:after {
+        content: "";
+        position: absolute;
+        top: 16px;
+        left: 4px;
+        transform: rotate(2deg);
+        width: 160%;
+        height: 160%;
+        background-repeat: no-repeat;
+    }
+}
