@@ -11,8 +11,6 @@ framework:
                     allow_no_handlers: true
                     allow_no_senders: true
                 middleware:
-                    - doctrine_ping_connection
-                    - doctrine_open_transaction_logger
                     - dispatch_after_current_bus
             
             query.bus:
@@ -22,8 +20,6 @@ framework:
                     allow_no_handlers: true
                     allow_no_senders: true
                 middleware:
-                    - doctrine_ping_connection
-                    - doctrine_open_transaction_logger
                     - dispatch_after_current_bus
             immediate_event.bus:
                 default_middleware: 
@@ -34,6 +30,16 @@ framework:
         transports:
             failed: 'doctrine://default?queue_name=failed'
             sync: 'sync://'
+            kafka_wikipedia:
+                dsn: '%env(KAFKA_EVENTS_MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    json_serialization:
+                        enabled: true
+                    consumer:
+                        routing:
+                            -   name: 'wikipedia.change.occurred'
+                                class: 'App\Modules\Wikipedia\Domain\WikipediaChangedOccurred'
+                    topics: [ 'evt.wikipedia.changes' ]
             kafka_events:
                 dsn: '%env(KAFKA_EVENTS_MESSENGER_TRANSPORT_DSN)%'
                 options:
@@ -46,10 +52,4 @@ framework:
                     topics: [ 'test_topic' ]
         routing:
             'App\Modules\UI\Cli\TestMessage': kafka_events
-# when@Test:
-#    framework:
-#        messenger:
-#            transports:
-#                # replace with your transport name here (e.g., my_transport: 'in-memory://')
-#                # For more Messenger testing tools, see https://github.com/zenstruck/messenger-test
-#                async: 'in-memory://'
+            'App\Modules\Wikipedia\Domain\WikipediaChangedOccurred': kafka_wikipedia
