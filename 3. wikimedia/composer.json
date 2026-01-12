@@ -10,6 +10,7 @@
         "ext-ctype": "*",
         "ext-fileinfo": "*",
         "ext-iconv": "*",
+        "alvarorosado/event-driven-kafka-messenger-transport": "^0.1.9",
         "brick/date-time": "^0.8.0",
         "brick/money": "^0.10.1",
         "brick/phonenumber": "^0.8.0",

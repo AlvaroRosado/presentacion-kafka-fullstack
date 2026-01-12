@@ -25,6 +25,47 @@ services:
             - caddy_config:/config          
         extra_hosts:
             - "host.docker.internal:host-gateway"
+    redpanda-0:
+      command:
+        - redpanda
+        - start
+        - --kafka-addr internal://0.0.0.0:9092,external://0.0.0.0:19092
+        - --advertise-kafka-addr internal://app-redpanda-0:9092,external://localhost:19092
+        - --pandaproxy-addr internal://0.0.0.0:8082,external://0.0.0.0:18082
+        - --advertise-pandaproxy-addr internal://app-redpanda-0:8082,external://localhost:18082
+        - --schema-registry-addr internal://0.0.0.0:8081,external://0.0.0.0:18081
+        - --rpc-addr app-redpanda-0:33145
+        - --advertise-rpc-addr app-redpanda-0:33145
+        - --smp 1
+        - --memory 1G
+        - --mode dev-container
+        - --default-log-level=debug
+      image: docker.redpanda.com/redpandadata/redpanda:v23.2.17
+      container_name: app-redpanda-0
+      volumes:
+        - app-redpanda-0:/var/lib/redpanda/data
+      ports:
+        - "19092:19092"
+      networks:
+        - dokploy-network
+    akhq:
+      image: tchiotludo/akhq:0.24.0
+      ports:
+        - "8003:8080"
+      networks:
+        - dokploy-network
+      environment:
+        AKHQ_CONFIGURATION: |
+          akhq:
+            connections:
+              redpanda:
+                properties:
+                  bootstrap.servers: "app-redpanda-0:9092"
+                  security.protocol: PLAINTEXT
+                  client.id: akhq
+                  request.timeout.ms: 30000
+                  default.api.timeout.ms: 30000
+
 networks:
   dokploy-network:
     external: true
@@ -36,3 +77,5 @@ volumes:
     rabbitmq_data:
     ollama:
     manticore_data:
+    app-redpanda-0:
+      name: "app-redpanda-0"

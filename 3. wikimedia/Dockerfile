@@ -34,6 +34,7 @@ RUN set -eux; \
 		pcntl \
 		zip \
 		redis \
+		rdkafka \
 	;
 
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser

@@ -34,7 +34,18 @@ framework:
         transports:
             failed: 'doctrine://default?queue_name=failed'
             sync: 'sync://'
+            kafka_events:
+                dsn: '%env(KAFKA_EVENTS_MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    json_serialization:
+                        enabled: true
+                    consumer:
+                        routing:
+                            -   name: 'test_event'
+                                class: 'App\Modules\UI\Cli\TestMessage'
+                    topics: [ 'test_topic' ]
         routing:
+            'App\Modules\UI\Cli\TestMessage': kafka_events
 # when@Test:
 #    framework:
 #        messenger:

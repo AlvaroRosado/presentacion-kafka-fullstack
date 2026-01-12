@@ -1687,6 +1687,16 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         ...<mixed>
  *     }>,
  * }
+ * @psalm-type EventDrivenKafkaTransportConfig = array{
+ *     consumer?: array{ // Default configuration for Kafka consumers
+ *         commit_async?: bool, // Use async commit (true/false) // Default: true
+ *         consume_timeout_ms?: int, // ConsumerConfiguration timeout in milliseconds // Default: null
+ *         config?: list<mixed>,
+ *     },
+ *     producer?: array{ // Default configuration for Kafka producers
+ *         config?: list<mixed>,
+ *     },
+ * }
  * @psalm-type ConfigType = array{
  *     imports?: ImportsConfig,
  *     parameters?: ParametersConfig,
@@ -1708,6 +1718,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *     vich_uploader?: VichUploaderConfig,
  *     symfonycasts_tailwind?: SymfonycastsTailwindConfig,
  *     hwi_oauth?: HwiOauthConfig,
+ *     event_driven_kafka_transport?: EventDrivenKafkaTransportConfig,
  *     "when@Test"?: array{
  *         imports?: ImportsConfig,
  *         parameters?: ParametersConfig,
@@ -1730,6 +1741,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         vich_uploader?: VichUploaderConfig,
  *         symfonycasts_tailwind?: SymfonycastsTailwindConfig,
  *         hwi_oauth?: HwiOauthConfig,
+ *         event_driven_kafka_transport?: EventDrivenKafkaTransportConfig,
  *     },
  *     "when@dev"?: array{
  *         imports?: ImportsConfig,
@@ -1754,6 +1766,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         vich_uploader?: VichUploaderConfig,
  *         symfonycasts_tailwind?: SymfonycastsTailwindConfig,
  *         hwi_oauth?: HwiOauthConfig,
+ *         event_driven_kafka_transport?: EventDrivenKafkaTransportConfig,
  *     },
  *     "when@prod"?: array{
  *         imports?: ImportsConfig,
@@ -1776,6 +1789,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         vich_uploader?: VichUploaderConfig,
  *         symfonycasts_tailwind?: SymfonycastsTailwindConfig,
  *         hwi_oauth?: HwiOauthConfig,
+ *         event_driven_kafka_transport?: EventDrivenKafkaTransportConfig,
  *     },
  *     "when@test"?: array{
  *         imports?: ImportsConfig,
@@ -1798,6 +1812,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         vich_uploader?: VichUploaderConfig,
  *         symfonycasts_tailwind?: SymfonycastsTailwindConfig,
  *         hwi_oauth?: HwiOauthConfig,
+ *         event_driven_kafka_transport?: EventDrivenKafkaTransportConfig,
  *     },
  *     ...<string, ExtensionType|array{ // extra keys must follow the when@%env% pattern or match an extension alias
  *         imports?: ImportsConfig,

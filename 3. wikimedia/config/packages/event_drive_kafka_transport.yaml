@@ -1,0 +1,30 @@
+event_driven_kafka_transport:
+    consumer:
+        commit_async: true
+        consume_timeout_ms: 500
+        config:
+            group.id: 'php-consumer'
+            security.protocol: "%env(KAFKA_EVENTS_MESSENGER_TRANSPORT_SECURITY_PROTOCOL)%"
+            sasl.mechanisms: "%env(KAFKA_EVENTS_MESSENGER_TRANSPORT_SASL_MECHANISMS)%"
+            sasl.username: "%env(KAFKA_EVENTS_MESSENGER_TRANSPORT_SASL_USERNAME)%"
+            sasl.password: "%env(KAFKA_EVENTS_MESSENGER_TRANSPORT_SASL_PASSWORD)%"
+            allow.auto.create.topics: 'true'
+            auto.offset.reset: 'earliest'
+            enable.partition.eof: 'true'
+            queued.max.messages.kbytes: '10000' # 10MB
+            partition.assignment.strategy: 'roundrobin'
+            max.poll.interval.ms: '600000' # 10 minutes
+            socket.keepalive.enable: 'true'
+            fetch.max.bytes: '104857600'
+            max.partition.fetch.bytes: '52428800'
+            topic.metadata.refresh.interval.ms: '60000'
+    
+    producer:
+        config:
+            security.protocol: "%env(KAFKA_EVENTS_MESSENGER_TRANSPORT_SECURITY_PROTOCOL)%"
+            sasl.mechanisms: "%env(KAFKA_EVENTS_MESSENGER_TRANSPORT_SASL_MECHANISMS)%"
+            sasl.username: "%env(KAFKA_EVENTS_MESSENGER_TRANSPORT_SASL_USERNAME)%"
+            sasl.password: "%env(KAFKA_EVENTS_MESSENGER_TRANSPORT_SASL_PASSWORD)%"
+            allow.auto.create.topics: 'true'
+            enable.idempotence: 'false'
+            max.in.flight.requests.per.connection: '1000000'

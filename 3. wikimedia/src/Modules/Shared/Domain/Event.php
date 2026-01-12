@@ -2,7 +2,7 @@
 
 namespace App\Modules\Shared\Domain;
 
-class Event extends Message
+abstract class Event extends Message
 {
     public function streamName(): ?string
     {

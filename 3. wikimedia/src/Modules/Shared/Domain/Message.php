@@ -70,6 +70,13 @@ abstract class Message
         return $this->correlationId ? MessageId::of($this->correlationId) : null;
     }
 
+    abstract public function identifier(): string;
+
+    public function key(): ?string
+    {
+        return null;
+    }
+
     private function asResponse(
         ?MessageId $causationId,
         ?MessageId $correlationId,
